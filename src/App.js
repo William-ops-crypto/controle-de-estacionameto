@@ -1,366 +1,275 @@
-import {  FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
-import { useEffect } from 'react'
-import {
-  ChakraProvider,
-  theme,
-  Center,
+import { useEffect,useState } from 'react'
 
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  
-  Radio, 
-  RadioGroup,
-  Stack 
-  
-} from '@chakra-ui/react'
 
 import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
   TableCaption,
   TableContainer,
+  ChakraProvider,
+  theme,
+  Center,
+  Button,
+  Radio,
+  RadioGroup,
+  Stack,
+  Input,
+  Box,
+  Spinner
+  
 } from '@chakra-ui/react'
-import axios, { formToJSON } from 'axios'
-
-
-
-
-
-
-import { Button, ButtonGroup } from '@chakra-ui/react'
-
-import { useState } from 'react'
-
-
 
 import React from 'react'
 import Modaladd from './componets/Modal'
-import ModalEdit from './componets/ModalEdit'
-import Table1 from './componets/Table1'
+
+import api from './services/api'
+
+
 function App() {
   const [isModalVisible, setIsModalVisible] = useState('');
+  const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const [isColumVisible, setIsColumVisible] = useState(true);
+  const [idPut, setIdPut] = useState('');
+  const [id, setId] = useState([]);
+  const [validarBotao, setValidarBotao] = useState('');
+  const [validarStatus, setValidarStatus] = useState('');
+  const [buscar, setBuscar] = useState('');
+  const [urlBuscar, setUrlBuscar] = useState('');
+  const [Vagas, setVagas] = useState([''])
+
+   
 
 
-
-  const [name, setName] = useState('');
-  const [marcaDoCarro, setMarcaDoCarro] = useState('');
-  const [modelo, setModelo] = useState('');
-  const [placa, setPlaca] = useState('');
-  const [status, setStatus] = useState('');
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const initialRef = React.useRef(null)
-  const finalRef = React.useRef(null)
-  const [idPut, setIdPut] = useState();
-  const [controlador, setControlador] = useState();
-
-  
-  const [id, setId] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:8080/vagas')
+  
+    api.get("vagas/pagamento?pagamento=Pendente")
       .then((response) => {
-        // const response = await api.get(`${input}`);
+
         setId(response.data)
         console.log(response.data)
         console.log('DEU certo')
+        console.log(Vagas);
+        console.log(response.data.dateTime);
 
-        // console.log(response);
+
       })
       .catch(() => {
         alert('Ops nada encontrado')
       })
-  },[] )
+    }, [])
 
+async function  search (urlBuscar,buscar){
 
-
-  async function Post (){
-
-    axios.post('http://localhost:8080/vagas/post',  	{
- 	
-      
-      name: name,
-      marcadocarro: marcaDoCarro,
-      modelo: modelo,
-      placa: placa,
-
-      status: {
-        id: status,
-        
-        
-      
-      
-      }
-      
+  api.get(`vagas/${urlBuscar}?${urlBuscar}=${buscar}`)
+  .then((response) => {
     
+    setId(response.data)
+    console.log(response.data);
+    console.log('DEU certo');
+    setIsButtonVisible(false);
+    setIsColumVisible(false);
+    if(response.data.length == 0){ alert(`Nada encontrado com a palavra : ${buscar} .`)
       
-    },useEffect,)
-    .then(function (response) {
-      
-      window.location.reload();
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-      alert('Campos invalidos');
-      
-    });
+    }
+    
+    
 
-  }
+  })
+  .catch(() => {
+    console.log('Ops nada encontrado')
 
-  async function Update (idPut){
+   
+    alert('Ops !!! Nada encontrado...')
+  })
   
-    axios.put(`http://localhost:8080/vagas/put/${idPut}`,  	{
-      
-      id:`${idPut}`,
-      name: name,
-      marcadocarro: marcaDoCarro,
-      modelo: modelo,
-      placa: placa,
 
-      status: {
-        id: status,
-        
-        
-      
-      
-      }
-      
+
+}
+
+function  BuscarNaVaga (buscar){
+
+  api.get(`vagas/pagamento?pagamento=${buscar}`)
+  .then((response) => {
     
-      
-    },useEffect,)
-    .then(function (response) {
-      
-      window.location.reload();
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-      console.log (idPut);
-      alert(idPut);
-      
-    });
- 
-
-
-  }
-
-
-
-
-
-  function Delete(id){
-
+    setId(response.data)
+    console.log(response.data);
+    console.log('DEU certo');
+    
+    setBuscar('');
+    setIsButtonVisible(true);
+    setIsColumVisible(true);
+    
     
 
-axios.delete(`http://localhost:8080/vagas/delete/${id}`)
+  })
+  .catch(() => {
+    console.log('Ops nada encontrado')
+   
+    alert('Ops !!! Nada encontrado...')
+  })
+  
+
+
+}
+
+async function buscarTodos(){
+
+  api.get('vagas')
   .then(response => {
-    console.log(`Deletado com sucesso : ${id}`);
-    window.location.reload();
+    
+    console.log(response.data);
+    setId(response.data);
+    setBuscar('');
+    setIsButtonVisible(false);
+    setIsColumVisible(false);
+   
   })
   .catch(error => {
-    console.error(error);
+    console.log(error);
   });
 
+}
 
+
+
+  
+  function Delete(id) {
+
+
+
+    api.delete(`vagas/delete/${id}`)
+      .then(response => {
+        console.log(`Deletado com sucesso : ${id}`);
+        BuscarNaVaga('Pendente');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+
+     }
+
+
+  function Editar(id) {
+
+    setIsModalVisible(true);
+    setIdPut(id);
+    setValidarBotao(true);
+    setValidarStatus(true);
+    
   }
 
+  function LiberarVaga(id) {
+    
+    setVagas ('');
+    setIsModalVisible(true);
+    setIdPut(id);
+    setValidarBotao(false);
+  }
 
-    function Editar(id){
-      setIdPut(id);
-      onOpen(true);
-      }  
-  
-    function Adicinar(id){
-        setIdPut('Para atalizar clique no botão editar em um dos itens a direita.');
-        onOpen(true);
-        }      
-
-
-
-
- 
-
-
-
-
-
-
-
-
+  function Adicionar() {
+    setIdPut('');
+    setIsModalVisible(true);
+    setValidarBotao(true);
+    
+    
+  }
 
   return (
-    <ChakraProvider theme={theme}>
-      <Center fontStyle={'oblique'} fontSize={40} color="Black" marginTop={10}>
-        Controle de fluxo estacionamento
+    
+    <Box  bg='#E2E8F0' minH={700} h='100%'>
+    <ChakraProvider bg={'blue'} theme={theme}>
+      <Center fontStyle={'oblique'} fontSize={40} color="Black" marginTop={1}>
+        Cadastro de Veículos
       </Center>
 
-      <div>
-
-
-     {isModalVisible ? <Modaladd
-       abrirModal={onClose} 
-      fecharmodal={()=>setIsModalVisible(false)} 
-      setName={setName} 
-       setMarcaDoCarro={setMarcaDoCarro}
-      setModelo={setModelo}
-      setPlaca={setPlaca}
-      salvar={()=>Post()}
-      setStatus={setStatus}
-       nome={id.name}
-
-       
-       
-      >
-       
-      </Modaladd> : null}
-
-
-       {isModalVisible ? <ModalEdit
-       abriModal={onOpen} 
-       fecharmodal={()=>setIsModalVisible(false)} 
-       setName={setName} 
-       setMarcaDoCarro={setMarcaDoCarro}
-       setModelo={setModelo}
-       setPlaca={setPlaca}
-       salvar={()=>Post()}
-       setStatus={setStatus}
-       nome={id.name}
-       id={id}
-
-       
-       
-       >
-       
-       </ModalEdit> : null}
-
-     
-     
-     
-     
-     
-     
-     
-      <Modaladd   initialFocusRef={initialRef}
-          finalFocusRef={finalRef}
-          isOpen={onOpen}
-          onClose={onClose}/>
-      
-
-      <Modal
-          initialFocusRef={initialRef}
-          finalFocusRef={finalRef}
-          isOpen={isOpen}
-          onClose={onClose}
-          > 
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Adicionar Veiculo</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody pb={6}>
-              <FormControl>
-                <FormLabel>Nome</FormLabel>
-                <Input ref={initialRef} placeholder={id.name} value={name}
-            onChange={(e) => setName(e.target.value)} />
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Marca do carro</FormLabel>
-                <Input  placeholder="Digite a Marca do carro" value={marcaDoCarro}
-            onChange={(e) => setMarcaDoCarro(e.target.value)}/>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Modelo</FormLabel>
-                <Input placeholder="Digite o modelo" value={modelo}
-            onChange={(e) => setModelo(e.target.value)} />
-              </FormControl>
-
-              <FormControl >
-                <FormLabel>Placa</FormLabel>
-                <Input placeholder={placa} value={placa}
-            onChange={(e) => setPlaca(e.target.value)} />
-              </FormControl>
-            
-           
-              <FormControl mt={4}>
-            <FormLabel>Status</FormLabel>
-            </FormControl>
-            
-              
-              
-              <RadioGroup defaultValue=''>
-               <Stack spacing={5} direction='row'>
-               <Radio colorScheme='green' value={'1'} onChange={(e) => setStatus(e.target.value)}>
-                Entrada
-               </Radio>
-               <Radio colorScheme='green' value={'2'} onChange={(e) => setStatus(e.target.value)}>
-                Saida
-              </Radio>
-               </Stack>
-              </RadioGroup>
-              </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={()=>Update(idPut)}>
-                Atualizar
-              </Button>
-              <Button colorScheme="blue" mr={3} onClick={()=>Post()}>
-                Salvar
-              </Button>
-              <Button onClick={onClose}>Cancelar</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      
-    
-
-
       
 
 
+        {isModalVisible ? <Modaladd
+          abrirModal={() => setIsModalVisible(true)}
+          fecharmodal={() => setIsModalVisible(false)}
+          botaovisible={validarBotao}
+          statusVisible={validarStatus}
+          IdPut={idPut}
+          
+          
+          >
+        </Modaladd> : null}
+
+          
+
+        <TableContainer  marginInline={20} marginTop={50}  scrollPaddingY={10}>
+
+
+        <Center> 
+        <Box borderRadius='md'  bg='teal' w='80%' p={2} color='white'>
         
+        <RadioGroup defaultValue={'Pendente'}>
+        
+            <Stack color={'black'} spacing={10} direction='row'>
+              <Radio colorScheme='blue' value={'Pendente'} onChange={(e) => BuscarNaVaga (e.target.value)}  >
+                Na Vaga
+              </Radio>
+              <Radio colorScheme='blue' value={"name"} onChange={(e) => setUrlBuscar (e.target.value)}  >
+                Buscar por nome
+              </Radio>
+              <Radio colorScheme='blue' value={"placa"} onChange={(e) => setUrlBuscar (e.target.value)} >
+                Buscar por nº da placa
+              </Radio>
+              <Radio colorScheme='blue' value={'1'} onChange={()=>buscarTodos()} >
+                Historico
+              </Radio>
+              <Input  w='40%' color={'black'} bg='white'  htmlSize={4}  placeholder={'Digite aqui'} value={buscar}
+              onChange={(e) => setBuscar(e.target.value)} />
+              <Button
+              onClick={()=>search(urlBuscar,buscar)}>Buscar</Button>
+            </Stack>
+            </RadioGroup>
+            </Box>
+           
+            </Center> 
 
 
-
-
-
-
-
-
-
-
-
-
-        <TableContainer marginInline={20}>
-          <Table size="sm" marginTop={20} scrollPaddingY={20}>
-            <TableCaption>@By: WILL SANTOS</TableCaption>
-
-            <Thead>
-              <Tr>
-                {' '}
-                <Button
+      
+              
+              
+              
+        
+              
+              
+              
+              
+            {isButtonVisible ? <Button
+                  marginTop={10}
                   marginInline={2}
                   colorScheme="teal"
                   size="sm"
-                  onClick={()=>setIsModalVisible(true)}
+                  onClick={() => Adicionar()}
                 >
                   Adicionar
-                </Button>
-         
-              </Tr>
+                </Button> : null}
+                
 
+
+               
+
+
+              
+          <Table size="sm" marginTop={10} scrollPaddingY={10}>
+            <TableCaption >@By: WILL SANTOS</TableCaption>
+
+              
+
+            
+            <Thead>
               <Tr>
+                {isColumVisible ? <Th>Nº de vagas ocupadas</Th> : null}
                 <Th>Nome do cliente</Th>
                 <Th>Marca do carro</Th>
                 <Th>Modelo</Th>
@@ -370,44 +279,45 @@ axios.delete(`http://localhost:8080/vagas/delete/${id}`)
               </Tr>
             </Thead>
 
-            {id.map((id) => {
-              return (
-                <Tbody>
+            {id.map((id,Vagas) => 
+              
+         
+               (
+                <Tbody key={Vagas}>
                   <Tr>
+                    {isColumVisible ?<Td>{Vagas}</Td> : null}
                     <Td>{id.name}</Td>
                     <Td>{id.marcadocarro}</Td>
                     <Td>{id.modelo}</Td>
                     <Td>{id.placa}</Td>
-                    <Td>{id.status_.status}</Td>
+                    <Td>{id.status.status}</Td>
                     <Td>{id.dateTime}</Td>
                     <Td>
-                      <Button marginInline={2} colorScheme="teal" size="sm"  onClick={()=>Editar(id.id)}  >
+                      {isButtonVisible ? <Button marginInline={2} colorScheme="teal" size="sm" onClick={() => Editar(id.id)}  >
                         Editar
-                      </Button>
-                      <Button marginInline={2} colorScheme="teal" size="sm" onClick={()=>Delete(id.id)}>
+                      </Button> : null}
+                      {isButtonVisible ?<Button marginInline={2} colorScheme="teal" size="sm" onClick={() => Delete(id.id)}>
                         Remover
-                      </Button>
+                      </Button> : null}
+                      {isButtonVisible ? <Button marginInline={2} colorScheme="teal" size="sm" onClick={() => LiberarVaga(id.id)}  >
+                        Liberar Vaga
+                      </Button> : null}
                     </Td>
                   </Tr>
                 </Tbody>
               )
-            })}
-            
-          </Table>
-        </TableContainer>
+            )} 
+
+          </Table> 
+        </TableContainer> 
+
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      </div>
     </ChakraProvider>
+
+            
+
+    </Box>
+    
   )
 }
 

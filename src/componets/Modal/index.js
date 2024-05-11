@@ -96,12 +96,12 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       });
   }
   
-  function Salvarvaga(IdPut){
+  function RealizarPagamento(IdPut){
+    
     LiberarVaga(IdPut);
-    LiberarVaga2(IdPut);
   }
   
-  async function LiberarVaga(IdPut) {
+  async function LancarHistorico(IdPut) {
     api.put(`vagas/put/${IdPut}`, {
       id: `${IdPut}`,
       pagamento: "Pago",
@@ -123,7 +123,7 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       });
   }
   
-  async function LiberarVaga2(IdPut) {
+  async function LiberarVaga(IdPut) {
     api.put(`vagas/put/${IdPut}`, {
       pagamento: "Pago",
       name: name,
@@ -136,7 +136,8 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       }
       }, useEffect,)
       .then(function (response) {
-        alert('Valor a pagar: R$: 10,00')
+        LancarHistorico(IdPut);
+        alert('Valor a pagar: R$: 10,00');
         window.location.reload();
         console.log(response.data);
       })
@@ -223,7 +224,7 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
            <Button colorScheme="blue" mr={3} onClick={() => Salvar()}>
                Salvar
             </Button> :
-          <Button colorScheme="blue" mr={3} onClick={() => Salvarvaga(IdPut)}>
+          <Button colorScheme="blue" mr={3} onClick={() => RealizarPagamento(IdPut)}>
               Realizar Pagamento
             </Button> 
           }
