@@ -162,6 +162,12 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
     if(IdPut==''){Post()}
     else{Update(IdPut)}
     }
+
+    function CancelarModal(){
+      
+      isStatusVisible(false);
+      }
+
   
     return (
     <Modal
@@ -169,6 +175,7 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       finalFocusRef={finalRef}
       isOpen={abrirModal}
       onClose={fecharmodal}
+      
     >
       <ModalOverlay />
       <ModalContent>

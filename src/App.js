@@ -1,5 +1,5 @@
 import { useEffect,useState } from 'react'
-
+import "./styles.css";
 
 import {
   Table,
@@ -19,12 +19,16 @@ import {
   Stack,
   Input,
   Box,
-  Spinner
+  Spinner,
+  Flex,
+  flexbox,
+  AspectRatio
   
 } from '@chakra-ui/react'
 
 import React from 'react'
 import Modaladd from './componets/Modal'
+import Menu from './componets/Menu'
 
 import api from './services/api'
 
@@ -170,20 +174,22 @@ async function buscarTodos(){
     setIsModalVisible(true);
     setIdPut(id);
     setValidarBotao(false);
+    setValidarStatus(false);
   }
 
   function Adicionar() {
     setIdPut('');
     setIsModalVisible(true);
     setValidarBotao(true);
+    setValidarStatus(false);
     
     
   }
 
   return (
-    
-    <Box  bg='#E2E8F0' minH={700} h='100%'>
-    <ChakraProvider bg={'blue'} theme={theme}>
+    <Flex >
+    <Box  bg='#E2E8F0' flex='3' w='100%'   h='800px'>
+    <ChakraProvider  bg={'blue'} theme={theme}>
       <Center fontStyle={'oblique'} fontSize={40} color="Black" marginTop={1}>
         Cadastro de Veículos
       </Center>
@@ -203,71 +209,76 @@ async function buscarTodos(){
         </Modaladd> : null}
 
           
+        
+        
 
-        <TableContainer  marginInline={20} marginTop={50}  scrollPaddingY={10}>
-
-
-        <Center> 
-        <Box borderRadius='md'  bg='teal' w='80%' p={2} color='white'>
+        
+        <Center > 
+        <Box className='Menu'  borderRadius='md'  bg='teal' w={[300, 400, 500]} p={1} color='white'>
         
         <RadioGroup defaultValue={'Pendente'}>
         
-            <Stack color={'black'} spacing={10} direction='row'>
-              <Radio colorScheme='blue' value={'Pendente'} onChange={(e) => BuscarNaVaga (e.target.value)}  >
+            <Stack display='flex' margin={3} color={'black'} spacing={2} >
+              <Radio  colorScheme='blue' value={'Pendente'} onChange={(e) => BuscarNaVaga (e.target.value)}  >
                 Na Vaga
               </Radio>
               <Radio colorScheme='blue' value={"name"} onChange={(e) => setUrlBuscar (e.target.value)}  >
                 Buscar por nome
               </Radio>
-              <Radio colorScheme='blue' value={"placa"} onChange={(e) => setUrlBuscar (e.target.value)} >
+              <Radio   colorScheme='blue' value={"placa"} onChange={(e) => setUrlBuscar (e.target.value)} >
                 Buscar por nº da placa
               </Radio>
               <Radio colorScheme='blue' value={'1'} onChange={()=>buscarTodos()} >
                 Historico
               </Radio>
-              <Input  w='40%' color={'black'} bg='white'  htmlSize={4}  placeholder={'Digite aqui'} value={buscar}
+             <Center>
+              <Input  color={'black'} bg='white'  htmlSize={4}  placeholder={'Digite aqui'} value={buscar}
               onChange={(e) => setBuscar(e.target.value)} />
-              <Button
-              onClick={()=>search(urlBuscar,buscar)}>Buscar</Button>
+            
+              <Button w='70%' alignItems='center' marginInline={2}
+              onClick={()=>search(urlBuscar,buscar)}> Buscar </Button>
+             </Center>
             </Stack>
             </RadioGroup>
             </Box>
            
             </Center> 
-
-
+            
+            
       
               
               
               
         
-              
-              
-              
-              
             {isButtonVisible ? <Button
-                  marginTop={10}
-                  marginInline={2}
+                  marginTop={50}
+                  marginInline={10}
                   colorScheme="teal"
                   size="sm"
                   onClick={() => Adicionar()}
                 >
                   Adicionar
                 </Button> : null}
+              
+            <TableContainer   marginInline={10} scrollPaddingY={10}>    
+              
+            
                 
 
 
                
 
 
-              
-          <Table size="sm" marginTop={10} scrollPaddingY={10}>
+                
+          
+          
+          <Table size="sm" marginTop={3} scrollPaddingY={10}  >
             <TableCaption >@By: WILL SANTOS</TableCaption>
 
               
-
             
-            <Thead>
+            
+            <Thead >
               <Tr>
                 {isColumVisible ? <Th>Nº de vagas ocupadas</Th> : null}
                 <Th>Nome do cliente</Th>
@@ -305,18 +316,22 @@ async function buscarTodos(){
                     </Td>
                   </Tr>
                 </Tbody>
+                
               )
-            )} 
+            )}
 
           </Table> 
+          
+          
         </TableContainer> 
-
+        
       
     </ChakraProvider>
 
             
 
     </Box>
+    </Flex>
     
   )
 }
