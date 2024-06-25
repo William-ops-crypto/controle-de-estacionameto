@@ -14,13 +14,10 @@ const Footer = () => {
 
     return(
 
-        <Center className="Footer"        >
+        <Center className="Footer">
         TRodapé
         </Center>
-
-
-
-    )
+)
 
 
 
