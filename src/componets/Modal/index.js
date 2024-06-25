@@ -19,7 +19,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
 
-const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible}) => {
+const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible,NaVaga}) => {
   const [isButtonVisible, setIsButtonVisible] = useState(botaovisible);
   const [isStatusVisible, setIsStatusVisible] = useState(statusVisible);
   const [name, setName] = useState('');
@@ -65,7 +65,8 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       }, useEffect,)
       .then(function (response) {
         fecharmodal();
-        window.location.reload();
+        NaVaga();
+        
         console.log(response.data);
       })
       .catch(function (error) {
@@ -88,7 +89,8 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       }
       }, useEffect,)
       .then(function (response) {
-        window.location.reload();
+        fecharmodal();
+        NaVaga();
         console.log(response.data);
       })
       .catch(function (error) {
@@ -109,9 +111,9 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       marcadocarro: marcaDoCarro,
       modelo: modelo,
       placa: placa,
-      dateTime:dateTime,
+      dateTime: new Date().toLocaleString(),
       status: {
-        id: 1,
+        id: 2,
       }
       }, useEffect,)
       .then(function (response) {
@@ -130,15 +132,16 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       marcadocarro: marcaDoCarro,
       modelo: modelo,
       placa: placa,
-      dateTime: new Date().toLocaleString(),
+      dateTime:dateTime,
       status: {
-        id: 2,
+        id: 1,
       }
       }, useEffect,)
       .then(function (response) {
         LancarHistorico(IdPut);
         alert('Valor a pagar: R$: 10,00');
-        window.location.reload();
+        fecharmodal();
+        NaVaga();
         console.log(response.data);
       })
       .catch(function (error) {
@@ -152,14 +155,14 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
       setId(response.data)
       console.log(response.data);
       console.log('DEU certo');
-    })
+    }, useEffect,)
     .catch(() => {
       console.log('Ops nada encontrado')
       alert('Ops !!! Nada encontrado...')
     })
     }
   function Salvar(){
-    if(IdPut==''){Post()}
+    if(IdPut==''){Post();}
     else{Update(IdPut)}
     }
 
@@ -184,25 +187,25 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible})
         <ModalBody pb={6}>
           <FormControl>
             <FormLabel>Nome</FormLabel>
-            <Input placeholder={name} value={name}
+            <Input placeholder={name?name:"Digite o nome"} value={name}
               onChange={(e) => setName(e.target.value)} />
           </FormControl>
 
           <FormControl>
             <FormLabel>Marca do carro</FormLabel>
-            <Input placeholder={marcaDoCarro} value={marcaDoCarro}
+            <Input placeholder={marcaDoCarro?marcaDoCarro:"Digite a marca do carro"} value={marcaDoCarro}
               onChange={(e) => setMarcaDoCarro(e.target.value)} />
           </FormControl>
 
           <FormControl>
             <FormLabel>Modelo</FormLabel>
-            <Input placeholder={modelo} value={modelo}
+            <Input placeholder={modelo?modelo:"Digite o modelo do carro"} value={modelo}
               onChange={(e) => setModelo(e.target.value)} />
           </FormControl>
 
           <FormControl >
             <FormLabel>Placa</FormLabel>
-            <Input placeholder={placa} value={placa}
+            <Input placeholder={placa?placa:"Digite a Placa ***-****"} value={placa}
               onChange={(e) => setPlaca(e.target.value)} />
           </FormControl>
 

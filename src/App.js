@@ -28,7 +28,7 @@ import {
 
 import React from 'react'
 import Modaladd from './componets/Modal'
-import Menu from './componets/Menu'
+
 
 import api from './services/api'
 
@@ -164,7 +164,8 @@ async function buscarTodos(){
     setIsModalVisible(true);
     setIdPut(id);
     setValidarBotao(true);
-    setValidarStatus(true);
+    setValidarStatus(false);
+    
     
   }
 
@@ -186,9 +187,16 @@ async function buscarTodos(){
     
   }
 
+
+
+   function handleKeyPress (evento) {
+      if (evento.key === 'Enter') {
+        search(urlBuscar,buscar);
+      }}
+
   return (
-    <Flex >
-    <Box  bg='#E2E8F0' flex='3' w='100%'   h='800px'>
+    <Flex h='1000px'>
+    <Box  bg='#E2E8F0' flex='3' w='100%'   h='100%'>
     <ChakraProvider  bg={'blue'} theme={theme}>
       <Center fontStyle={'oblique'} fontSize={40} color="Black" marginTop={1}>
         Cadastro de Veículos
@@ -203,6 +211,7 @@ async function buscarTodos(){
           botaovisible={validarBotao}
           statusVisible={validarStatus}
           IdPut={idPut}
+          NaVaga={() => BuscarNaVaga("Pendente")}
           
           
           >
@@ -233,7 +242,7 @@ async function buscarTodos(){
               </Radio>
              <Center>
               <Input  color={'black'} bg='white'  htmlSize={4}  placeholder={'Digite aqui'} value={buscar}
-              onChange={(e) => setBuscar(e.target.value)} />
+              onChange={(e) => setBuscar(e.target.value)} onKeyPress={handleKeyPress}   />
             
               <Button w='70%' alignItems='center' marginInline={2}
               onClick={()=>search(urlBuscar,buscar)}> Buscar </Button>
@@ -260,7 +269,7 @@ async function buscarTodos(){
                   Adicionar
                 </Button> : null}
               
-            <TableContainer   marginInline={10} scrollPaddingY={10}>    
+            <TableContainer   marginInline={10} scrollPaddingY={10} >    
               
             
                 
@@ -272,7 +281,7 @@ async function buscarTodos(){
                 
           
           
-          <Table size="sm" marginTop={3} scrollPaddingY={10}  >
+          <Table size="sm" marginTop={3} scrollPaddingY={10}   >
             <TableCaption >@By: WILL SANTOS</TableCaption>
 
               
