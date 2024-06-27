@@ -3,6 +3,7 @@ import "./styles.css";
 import {
     Flex,
     Center,
+    Box,
     
     
   } from '@chakra-ui/react'
@@ -16,8 +17,8 @@ const Footer = () => {
         
                <Flex bg='teal' w={'100%'} >
        
-      
-               <Center className="Footer" >
+      <Box>
+      <Center className="Footer" >
 
                <SocialIcon  className = "Icone"  href='https://www.linkedin.com/in/william-santos-da-silva/' target="_blank"  url="https://linkedin.com" />
              
@@ -29,7 +30,7 @@ const Footer = () => {
               
                 
        </Center>
-       
+       </Box>
        </Flex>
        
 )
