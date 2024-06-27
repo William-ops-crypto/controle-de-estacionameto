@@ -196,7 +196,7 @@ async function buscarTodos(){
 
   return (
     <Flex h='1000px'>
-    <Box  bg='#E2E8F0' flex='3' w='100%'   h='100%'>
+    <Box  bg='#E2E8F0'  w='100%'   h='100%'>
     <ChakraProvider  bg={'blue'} theme={theme}>
       <Center fontStyle={'oblique'} fontSize={40} color="Black" marginTop={1}>
         Cadastro de Veículos
