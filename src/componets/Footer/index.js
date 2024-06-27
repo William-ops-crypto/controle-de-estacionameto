@@ -15,10 +15,10 @@ const Footer = () => {
     return(
 
         
-               <Flex bg='teal' w={'100%'} >
+       <Flex>     
        
-      <Box>
-      <Center className="Footer" >
+      <Box bg='teal'   w={'100%'} h={'100%'}>
+      <Center  margin={5} >
 
                <SocialIcon  className = "Icone"  href='https://www.linkedin.com/in/william-santos-da-silva/' target="_blank"  url="https://linkedin.com" />
              
@@ -31,8 +31,8 @@ const Footer = () => {
                 
        </Center>
        </Box>
-       </Flex>
        
+       </Flex>    
 )
 
 
