@@ -179,7 +179,7 @@ async function buscarTodos(){
   }
 
   function Adicionar() {
-    setIdPut();
+    setIdPut('');
     setIsModalVisible(true);
     setValidarBotao(true);
     setValidarStatus(false);

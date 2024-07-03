@@ -161,10 +161,10 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible,N
       alert('Ops !!! Nada encontrado...')
     })
     }
-  function Salvar(){
-    if(IdPut==''){Post();}
-    else{Update(IdPut)}
-    }
+    function Salvar(){
+      if(IdPut==('')){Post()}
+      else{ Update(IdPut)}
+      }
 
     function CancelarModal(){
       
