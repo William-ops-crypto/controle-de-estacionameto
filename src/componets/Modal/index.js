@@ -153,6 +153,7 @@ const Modaladd = ({ abrirModal, fecharmodal, IdPut,botaovisible, statusVisible,N
     api.get("vagas/pagamento?pagamento=pendente")
     .then((response) => {
       setId(response.data)
+      
       console.log(response.data);
       console.log('DEU certo');
     }, useEffect,)

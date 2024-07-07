@@ -27,7 +27,7 @@ const Header = () => {
                          borderRadius={100}
                           boxSize='50px'
                          
-                          src='https://scontent.fcaw5-1.fna.fbcdn.net/v/t1.6435-9/118386212_3457993920913484_454249750073191862_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeGcVkN6MWHaNGc9Lw-egj3vqKTkh038B8GopOSHTfwHwVqz6wDg--i7G12WT5U5_m5SRs-eNHW2GyyzxdobSoZM&_nc_ohc=-LYOAq7Bsd0Q7kNvgE7P3AQ&_nc_ht=scontent.fcaw5-1.fna&oh=00_AYDdi8ifCvRyszKQPWJMp67NEa_DqwABbAkd4pN6HPCSng&oe=66A40F7B'
+                          src='https://avatars.githubusercontent.com/u/67718144?v=4'
                           alt='Foto will'
                             />   
       
@@ -47,3 +47,5 @@ const Header = () => {
 
 
 export default Header;
+
+//src='https://scontent.fcaw5-1.fna.fbcdn.net/v/t1.6435-9/118386212_3457993920913484_454249750073191862_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeGcVkN6MWHaNGc9Lw-egj3vqKTkh038B8GopOSHTfwHwVqz6wDg--i7G12WT5U5_m5SRs-eNHW2GyyzxdobSoZM&_nc_ohc=-LYOAq7Bsd0Q7kNvgE7P3AQ&_nc_ht=scontent.fcaw5-1.fna&oh=00_AYDdi8ifCvRyszKQPWJMp67NEa_DqwABbAkd4pN6HPCSng&oe=66A40F7B'

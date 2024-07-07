@@ -19,12 +19,8 @@ import {
   Stack,
   Input,
   Box,
-  Spinner,
   Flex,
-  flexbox,
-  AspectRatio
-  
-} from '@chakra-ui/react'
+ } from '@chakra-ui/react'
 
 import React from 'react'
 import Modaladd from './componets/Modal'
@@ -59,8 +55,6 @@ function App() {
         console.log('DEU certo')
         console.log(Vagas);
         console.log(response.data.dateTime);
-
-
       })
       .catch(() => {
         alert('Ops nada encontrado')
@@ -72,38 +66,34 @@ async function  search (urlBuscar,buscar){
   api.get(`vagas/${urlBuscar}?${urlBuscar}=${buscar}`)
   .then((response) => {
     
-    setId(response.data)
+    if(buscar== ''){
+      alert(`O campo está vazio, selecione um dos campos de busca e digite nome ou placa. `)
+    }
+    else{ 
+    setId(response.data);
+    console.log(urlBuscar)
+    console.log(buscar)
     console.log(response.data);
     console.log('DEU certo');
     setIsButtonVisible(false);
     setIsColumVisible(false);
-    if(response.data.length == 0){ alert(`Nada encontrado com a palavra : ${buscar} .`)
-      
     }
-    
-    
-
-  })
+    if(response.data.length == 0){ alert(`Nada encontrado com a palavra : ${buscar} .`)
+    }
+    })
   .catch(() => {
     console.log('Ops nada encontrado')
-
-   
     alert('Ops !!! Nada encontrado...')
   })
-  
-
-
-}
+  }
 
 function  BuscarNaVaga (buscar){
-
-  api.get(`vagas/pagamento?pagamento=${buscar}`)
+api.get(`vagas/pagamento?pagamento=${buscar}`)
   .then((response) => {
     
     setId(response.data)
     console.log(response.data);
     console.log('DEU certo');
-    
     setBuscar('');
     setIsButtonVisible(true);
     setIsColumVisible(true);
@@ -129,6 +119,9 @@ async function buscarTodos(){
     console.log(response.data);
     setId(response.data);
     setBuscar('');
+    
+    
+    
     setIsButtonVisible(false);
     setIsColumVisible(false);
    
@@ -195,7 +188,7 @@ async function buscarTodos(){
       }}
 
   return (
-    <Flex h='1000px'>
+    <Flex h='800px'>
     <Box  bg='#E2E8F0'  w='100%'   h='100%'>
     <ChakraProvider  bg={'blue'} theme={theme}>
       <Center fontStyle={'oblique'} fontSize={40} color="Black" marginTop={1}>
@@ -211,7 +204,7 @@ async function buscarTodos(){
           botaovisible={validarBotao}
           statusVisible={validarStatus}
           IdPut={idPut}
-          NaVaga={() => BuscarNaVaga("Pendente")}
+          NaVaga={() => BuscarNaVaga("Pendente") }
           
           
           >
@@ -281,7 +274,7 @@ async function buscarTodos(){
                 
           
           
-          <Table size="sm" marginTop={3} scrollPaddingY={10}   >
+          <Table size="sm" marginTop={3} scrollPaddingY={10}  >
             <TableCaption >@By: WILL SANTOS</TableCaption>
 
               
