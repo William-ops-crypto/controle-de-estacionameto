@@ -97,10 +97,7 @@ api.get(`vagas/pagamento?pagamento=${buscar}`)
     setBuscar('');
     setIsButtonVisible(true);
     setIsColumVisible(true);
-    
-    
-
-  })
+    })
   .catch(() => {
     console.log('Ops nada encontrado')
    
